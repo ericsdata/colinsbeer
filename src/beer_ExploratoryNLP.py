@@ -11,10 +11,10 @@ import numpy as np
 import torch
 from sklearn.model_selection import train_test_split
 
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 
-conn = db_ec.connect_db(r'data\beerdb.sqlite')
+
+conn = db_ec.connect_db(r'..\data\beerdb.sqlite')
 
 ## REad in data
 dat = pd.read_sql('SELECT review_text, style FROM reviews;',conn)
@@ -42,7 +42,7 @@ dat['style_id'] = dat['style'].map({
 
 ## Split data for ML validation 
 dat_list = train_test_split(dat, test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
-
+##  Full data
 train = dat_list[0]
 
 test = dat_list[1]
@@ -51,10 +51,27 @@ x_labels = torch.tensor(train['style_id'].values)
 
 x_text = train.review_text.to_list()
 
+
+## Starting very small
+
+few_reviews = x_text [0:5]
+
+
+
+
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
  ## Import BERT Model
 tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
 model = AutoModelForSequenceClassification.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
 
 
-batch = tokenizer(x_text, padding=True, truncation=True, return_tensors="pt")
+
+batch = tokenizer(few_reviews, padding="max_length", truncation=True, return_tensors="pt")
 batch['labels'] = torch.tensor(train['style_id'].values)
+
+### Choosing tokenizer
+####    A) Keep reviews by uid
+####    B) Sentence strings associated with a particular style
+
+output = model(**batch)
