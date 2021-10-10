@@ -4,6 +4,7 @@
 
 ### Use review textst to classify styles
 
+from typing import Sequence
 import db_ec
 import pandas as pd
 import numpy as np
@@ -51,27 +52,48 @@ x_labels = torch.tensor(train['style_id'].values)
 
 x_text = train.review_text.to_list()
 
-
-## Starting very small
-
 few_reviews = x_text [0:5]
+
 
 
 
 
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
+
+## Sequence is single str of text
+sequence = few_reviews
+
  ## Import BERT Model
 tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
 model = AutoModelForSequenceClassification.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
 
+## Moddel inputs holds two arrays
+    ## input_ids: list of id of word vector
+    ## attention_mask
+    
+model_inputs = tokenizer(sequence, padding = True, truncation = True, return_tensors= 'pt')
 
 
-batch = tokenizer(few_reviews, padding="max_length", truncation=True, return_tensors="pt")
-batch['labels'] = torch.tensor(train['style_id'].values)
+## List of IDs
+ids = tokenizer.convert_tokens_to_ids(model_inputs)
+
+
+
+#batch = tokenizer(few_reviews, padding="max_length", truncation=True, return_tensors="pt")
+
+## !!! Attaching class to model inputs
+model_inputs['labels'] = torch.tensor(train['style_id'].values)
 
 ### Choosing tokenizer
 ####    A) Keep reviews by uid
 ####    B) Sentence strings associated with a particular style
 
-output = model(**batch)
+output = model(**model_inputs)
+
+i = 0
+
+for out in range(0,len(output)):
+
+    print(output[i])
+    i+=1
