@@ -16,11 +16,11 @@ import db_ec
 #load data
 #os.chdir(r"C:\Users\colin\Desktop\Coursera Python\Beer Analysis") 
 
-db_ec.create_db_connection(r'data\beerdb.db')
+db_ec.create_db_connection(r'..\data\beerdb.db')
 
 
 #connect to SQL db  
-conn = db_ec.connect_db(r'data\beerdb.sqlite')
+conn = db_ec.connect_db(r'..\data\beerdb.sqlite')
 cur = conn.cursor()
 
 #Do DB set-up
@@ -48,7 +48,7 @@ CREATE TABLE reviews (
 beer_list = []
 
 
-with gzip.open(r'data\SNAP-Ratebeer.txt.gz', 'rt') as f:
+with gzip.open(r'..\data\SNAP-Ratebeer.txt.gz', 'rt') as f:
      for line in f:
         lineformatted = re.sub(r'^.*?:', '', line)
         beer_list.append(lineformatted.lstrip().rstrip('\n'))
