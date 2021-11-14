@@ -51,8 +51,10 @@ test = dat_list[1]
 x_labels = torch.tensor(train['style_id'].values)
 
 x_text = train.review_text.to_list()
+x_lab = train['style_id'].to_list()
 
 few_reviews = x_text [0:5]
+few_labs = x_lab[0:5]
 
 
 
@@ -63,6 +65,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 ## Sequence is single str of text
 sequence = few_reviews
+
 
  ## Import BERT Model
 tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
@@ -79,11 +82,10 @@ model_inputs = tokenizer(sequence, padding = True, truncation = True, return_ten
 ids = tokenizer.convert_tokens_to_ids(model_inputs)
 
 
-
 #batch = tokenizer(few_reviews, padding="max_length", truncation=True, return_tensors="pt")
 
 ## !!! Attaching class to model inputs
-model_inputs['labels'] = torch.tensor(train['style_id'].values)
+model_inputs['labels'] = torch.tensor(few_labs)
 
 ### Choosing tokenizer
 ####    A) Keep reviews by uid
