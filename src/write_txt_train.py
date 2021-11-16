@@ -49,3 +49,13 @@ dat['overall_f'] = dat['overall'].apply(adjustOverallScore, 'NoRound')
 
 ### MAke a training set
 from sklearn.model_selection import train_test_split
+
+
+## Split data for ML validation 
+dat_list = train_test_split(dat[['review_text', 'overall_f']], test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
+##  Split train and test, push to csv - upload to google colab
+train = dat_list[0]
+train.to_csv(r'..\data\txt_train.csv', index = False)
+
+test = dat_list[1]
+test.to_csv(r'..\data\txt_test.csv', index = False)
