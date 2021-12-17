@@ -4,6 +4,11 @@ Beer Rating data
 
 Make /data folder at sibling level of source
 
+
+## SCOPE
+- Hugging face fine tuned model
+- predict "exceptional" beer
+
 ### TO DO
 
 - Remove puncuation regex from reviews
@@ -11,7 +16,7 @@ Make /data folder at sibling level of source
 
 - Format text to be read in NLP model
 
-- Choose modeling type - TF or Hugging Face
+
 
 ### Brainstorming
 
