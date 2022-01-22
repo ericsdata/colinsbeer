@@ -12,11 +12,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from fractions import Fraction
 import datetime as dt
+import db_ec
 
-os.chdir(r"C:\Users\colin\Desktop\Coursera Python\Beer Analysis") 
+### !!! os.chdir(r"C:\Users\colin\Desktop\Coursera Python\Beer Analysis") 
 
-conn = sqlite3.connect('beerdb.sqlite')
+conn = db_ec.connect_db(r'..\data\beerdb.sqlite')
 cur = conn.cursor()
+ 
 
 #Retrieve entire table 
 reviews = pd.read_sql_query('SELECT * FROM reviews', con = conn)
@@ -83,7 +85,7 @@ style_agg = reviews2.groupby('style').agg({'review_text': 'count',
         'AB' : 'mean'
         })
 
-f, axes = plt.pyplot.subplots(2,1)
+f, axes = plt.subplots(2,1)
 sns.scatterplot(x = style_agg['AB'], y = style_agg['overall'], size = style_agg['review_text'], ax = axes[0])
 sns.distplot(reviews2['overall'], ax = axes[1], bins = 10)
 

@@ -16,7 +16,7 @@ import sqlite3
 from fractions import Fraction
 
 
-os.chdir(r"C:\Users\colin\Desktop\Coursera Python\Beer Analysis") 
+# !!!  os.chdir(r"C:\Users\colin\Desktop\Coursera Python\Beer Analysis") 
 
 #conn = sqlite3.connect('beerdb.sqlite')
 #cur = conn.cursor()
