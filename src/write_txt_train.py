@@ -10,6 +10,11 @@ conn = db_ec.connect_db(r'..\data\beerdb.sqlite')
 
 ## REad in data
 dat = pd.read_sql('SELECT beerID, brewerId, overall, review_text, style FROM reviews;',conn)
+
+### Set up reviews for NLP by adding CLS SEP tags
+
+#dat['review_text'] = ["[CLS] " + query + " [SEP]" for query in dat['review_text']]
+
 ## Simplify targets
 dat['style'] = dat['style'].str.replace('India.*', 'India Pale Ale', regex = True)
 dat['style'] = dat['style'].str.replace('Belgi.*', 'Witbier', regex = True)
@@ -47,15 +52,21 @@ def adjustOverallScore(unformatted_score, round = ['Up','Down','NoRound']):
 
 dat['overall_f'] = dat['overall'].apply(adjustOverallScore, 'NoRound')
 
+dat['good_score'] = dat['overall_f'].apply(lambda x: 1.0 if x >= .8 else 0.0)
+
 ### MAke a training set
 from sklearn.model_selection import train_test_split
 
 
 ## Split data for ML validation 
-dat_list = train_test_split(dat[['review_text', 'overall_f']], test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
+dat_list = train_test_split(dat[['review_text', 'good_score']], test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
 ##  Split train and test, push to csv - upload to google colab
 train = dat_list[0]
 train.to_csv(r'..\data\txt_train.csv', index = False)
 
+
+
 test = dat_list[1]
 test.to_csv(r'..\data\txt_test.csv', index = False)
+
+
