@@ -52,14 +52,16 @@ def adjustOverallScore(unformatted_score, round = ['Up','Down','NoRound']):
 
 dat['overall_f'] = dat['overall'].apply(adjustOverallScore, 'NoRound')
 
-dat['good_score'] = dat['overall_f'].apply(lambda x: 1.0 if x >= .8 else 0.0)
+dat['good_score'] = dat['overall_f'].apply(lambda x: 1 if x >= .8 else 0)
 
 ### MAke a training set
 from sklearn.model_selection import train_test_split
 
+#dat = dat[dat.style_id.isin([1,2,3,4,5])]
 
+target = 'good_score'
 ## Split data for ML validation 
-dat_list = train_test_split(dat[['review_text', 'good_score']], test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
+dat_list = train_test_split(dat[['review_text', target]], test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
 ##  Split train and test, push to csv - upload to google colab
 train = dat_list[0]
 train.to_csv(r'..\data\txt_train.csv', index = False)
