@@ -16,7 +16,7 @@ import db_ec
 #load data
 #os.chdir(r"C:\Users\colin\Desktop\Coursera Python\Beer Analysis") 
 
-db_ec.create_db_connection(r'..\data\beerdb.db')
+#db_ec.create_db_connection(r'..\data\beerdb.db')
 
 
 #connect to SQL db  
@@ -45,58 +45,30 @@ CREATE TABLE reviews (
 
 ''')
 
-beer_list = []
+
 
 
 with gzip.open(r'..\data\SNAP-Ratebeer.txt.gz', 'rt') as f:
+     single_beer = []
+     beer_list = []
      for line in f:
-        lineformatted = re.sub(r'^.*?:', '', line)
-        beer_list.append(lineformatted.lstrip().rstrip('\n'))
-
-
-
- #Look into pd.DataFrame.to_sql https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_sql.html
-y = 12138000
-n = 10
-
-for i in range(n):
-    y = int(12138000 + 14000)
-    i = i+1
-    print(y)
-    print(i)
-    beer_short = beer_list[int(y-14000):y]
-    x = len(beer_short)/14
-    reviews_split = None
-    reviews_split = np.array_split(beer_short, x)
-    
-    #x1 = len(beer_list)/14
-    #beers_split = np.array_split(beer_short, x1)
-    
-    for entry in range(len(reviews_split)):
         
-        name        = reviews_split[entry][0]
-        beerID      = reviews_split[entry][1]   
-        brewerId    = reviews_split[entry][2]
-        AB          = reviews_split[entry][3]    
-        style       = reviews_split[entry][4]
-        appearance  = reviews_split[entry][5]
-        aroma       = reviews_split[entry][6]
-        palate      = reviews_split[entry][7]
-        taste       = reviews_split[entry][8]  
-        overall     = reviews_split[entry][9]
-        time        = reviews_split[entry][10]
-        profileName = reviews_split[entry][11]
-        review_text = reviews_split[entry][12]
-    
-        #print(name)
-    
-        cur.execute('''INSERT INTO reviews
+        lineformatted = re.sub(r'^.*?:', '', line)
+        
+        if lineformatted != "\n":
+            single_beer.append(lineformatted.lstrip().rstrip('\n'))
+        elif lineformatted == "\n":
+            beer_list.append(tuple(single_beer))
+            single_beer = []
+        else:
+            print("something has gone wrong")
+
+        
+
+cur.executemany('''INSERT INTO reviews
             (name, beerID, brewerId, AB, style, appearance,aroma,
             palate,taste, overall, time, profileName, review_text) 
-            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )''', 
-            ( name, beerID, brewerId, AB, style, appearance,aroma,
-            palate,taste, overall, time, profileName, review_text) )
-    
-        conn.commit()
-
+            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )''', beer_list
+            )
+conn.commit()
 
