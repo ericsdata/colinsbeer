@@ -9,7 +9,7 @@ import math
 conn = db_ec.connect_db(r'..\data\beerdb.sqlite')
 
 ## REad in data
-dat = pd.read_sql('SELECT beerID, brewerId, overall, review_text, style FROM reviews;',conn)
+dat = pd.read_sql('SELECT DISTINCT beerID, brewerId, overall, review_text, style FROM reviews;',conn)
 
 ### Set up reviews for NLP by adding CLS SEP tags
 
@@ -37,29 +37,29 @@ dat['style_id'] = dat['style'].map({
                         'Heller Bock' :15})
 
 ## Fix the rating format
-def adjustOverallScore(unformatted_score, round = ['Up','Down','NoRound']):
+def adjustOverallScore_binary(unformatted_score):
     score = float(unformatted_score.split('/20')[0]) / 20 ### Split and format
-    if round == 'Down':
-        f_score = round(score,1)
-    elif round == 'Up':
-        f_score = round(score,1)
-    else:
-        f_score = float(score)
+    return score
 
-    
-    return f_score
+def adjustOverallScore_down(unformatted_score):
+    score = float(unformatted_score.split('/20')[0]) / 20 ### Split and format
+    return int(round(score*10,0))
 
 
-dat['overall_f'] = dat['overall'].apply(adjustOverallScore, 'NoRound')
+#dat['overall_f'] = dat['overall'].apply(adjustOverallScore_binary)
 
-dat['good_score'] = dat['overall_f'].apply(lambda x: 1.0 if x >= .8 else 0.0)
+#dat['good_score'] = dat['overall_f'].apply(lambda x: 1 if x >= .8 else 0)
+
+dat['level_score'] = dat['overall'].apply(adjustOverallScore_down)
 
 ### MAke a training set
 from sklearn.model_selection import train_test_split
 
+#dat = dat[dat.style_id.isin([1,2,3,4,5])]
 
+target = 'level_score'
 ## Split data for ML validation 
-dat_list = train_test_split(dat[['review_text', 'good_score']], test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
+dat_list = train_test_split(dat[['review_text', target]], test_size= 0.3, random_state=1144, shuffle=True, stratify=None)
 ##  Split train and test, push to csv - upload to google colab
 train = dat_list[0]
 train.to_csv(r'..\data\txt_train.csv', index = False)
