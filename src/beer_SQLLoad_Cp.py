@@ -47,14 +47,17 @@ CREATE TABLE reviews (
 
 
 
-
+### One loop - if/thens can be improved upon
+#### Use a while loop
 with gzip.open(r'..\data\SNAP-Ratebeer.txt.gz', 'rt') as f:
-     single_beer = []
-     beer_list = []
+     single_beer = [] ## list to hold records for a single review
+     beer_list = [] ## list to hold all reviews
+
      for line in f:
         
-        lineformatted = re.sub(r'^.*?:', '', line)
+        lineformatted = re.sub(r'^.*?:', '', line) #read first line
         
+        ## Determine whether line is final row record, delimited by \n
         if lineformatted != "\n":
             single_beer.append(lineformatted.lstrip().rstrip('\n'))
         elif lineformatted == "\n":
