@@ -7,7 +7,7 @@ Navigate to root folder
 
 `python -m pip install pandas pip-chill`
 
-`pip-chill requirements.txt`
+`pip-chill > requirements.txt`
 
 ## Put on another machine
 
