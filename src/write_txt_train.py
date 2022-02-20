@@ -8,11 +8,42 @@ import math
 
 def write_training_data(conn, target, size = 10000):
 
+    statement = '''SELECT DISTINCT beerID, 
+                                    brewerId, 
+                                    overall, 
+                                    review_text, 
+                                    style 
+                    
+                    FROM reviews ;'''
+
+
+    ## Get beers with a lot of reviews
+    statement = '''SELECT DISTINCT a.beerID, 
+                                    a.brewerId, 
+                                    a.overall, 
+                                    a.review_text, 
+                                    a.style 
+                    
+                    FROM (SELECT beerID
+                                , Count(*) as rCount
+                        FROM reviews 
+                        GROUP BY beerID
+                        HAVING rCount > ?
+
+                              
+                                ) b 
+                Left Join  reviews a
+                        ON b.beerID = a.beerID
+
+
+                    ;'''
+
+
+    minReviews = 100
+    params = [minReviews]
 
     ## REad in data
-    dat = pd.read_sql('SELECT DISTINCT beerID, brewerId, overall, review_text, style FROM reviews ;'
-                    ,conn
-                    , params= {"size":size})
+    dat = db_ec.executeStatement(conn,statement, params)
 
     ### Set up reviews for NLP by adding CLS SEP tags
 
