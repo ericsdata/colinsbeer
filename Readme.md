@@ -21,14 +21,25 @@ With this data we aim to
 
 - Cluster word embeddings?
     - which beers / beer types are similarly described
+    
 
+- DATA PROFILES
+    - Look at reviews with higher count of pronounds vs reviews with lower
+        - i.e. Reviews that are "subjective" vs "objective"
+
+    - Breweries
+        - How many of each style a brewery makes
 
 
 ### TO DO
 
 - How clean is our data?
     - Newline delimited
-    - Text cleaning
+    - Missing reviews , scores, brewery identifiers
+    - Text 
+        - Many reviews start with serving styles
+        - Extra spacing
+
 
 - NoSql? / Database repair
 
