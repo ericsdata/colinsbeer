@@ -9,6 +9,7 @@ Created on Sat Feb  8 13:39:26 2020
 import os
 import sqlite3
 import csv
+import pandas as pd
 
 from sqlite3 import Error
 
@@ -64,5 +65,23 @@ def str2bool(v):
     else:
         return print("Invalid selection for boolean value")
     
-def executeStatement():
-    print("hello fix this")
+def executeStatement(conn , statement : str, params : list):
+    '''
+    Generic funciton to return dataframes from query
+
+    Arguments
+        conn : db_connect object
+        statement : sql string of query, (can be paramterized)
+        params: list of ordered parameters for querty
+    
+    Returns
+        data : pd dataframe of query results
+    '''
+    try:
+        data =  pd.read_sql(statement
+                    ,conn
+                    ,params= params)
+    except Error as e:
+        print(e)
+
+    return data
