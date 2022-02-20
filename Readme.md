@@ -22,7 +22,7 @@ With this data we aim to
 - Cluster word embeddings?
     - which beers / beer types are similarly described
 
-
+eric smells!!!
 
 ### TO DO
 
