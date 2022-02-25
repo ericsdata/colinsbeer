@@ -6,8 +6,24 @@ import numpy as np
 import math
 
 
-def write_training_data(conn, target, size = 10000):
+def write_training_data(conn, target, size = 40000):
+    '''
+    Function writtent to read data from data frame, transform
 
+    Arguments
+        conn : Data connection able to return queries in data frames
+        target : what is target for ml model
+        size : choose a size of training data to return 
+    
+    Returns 
+        txt_test.csv - file written to data folder. 70% of size arg, data used for ml training
+        txt_test.csv - file written to data folder. data used for ml validation
+    '''
+    ### TODO 
+        ## Make function able to accomodate all types of functions
+        ## modularize transformation
+        ## Data sourcing
+    ## Get all beers
     statement = '''SELECT DISTINCT beerID, 
                                     brewerId, 
                                     overall, 
@@ -46,8 +62,10 @@ def write_training_data(conn, target, size = 10000):
     dat = db_ec.executeStatement(conn,statement, params)
 
     ### Set up reviews for NLP by adding CLS SEP tags
-
     #dat['review_text'] = ["[CLS] " + query + " [SEP]" for query in dat['review_text']]
+    dat = dat.sample(n = size, replace = False)
+    ### Take a random sample
+
 
     ## Simplify targets
     dat['style'] = dat['style'].str.replace('India.*', 'India Pale Ale', regex = True)
