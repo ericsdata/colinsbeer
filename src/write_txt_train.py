@@ -43,6 +43,7 @@ def write_training_data(conn, target, size = 40000):
                     FROM (SELECT beerID
                                 , Count(*) as rCount
                         FROM reviews 
+                        WHERE review_text <> ''
                         GROUP BY beerID
                         HAVING rCount > ?
 
@@ -50,6 +51,8 @@ def write_training_data(conn, target, size = 40000):
                                 ) b 
                 Left Join  reviews a
                         ON b.beerID = a.beerID
+
+                
 
 
                     ;'''
@@ -123,4 +126,4 @@ def write_training_data(conn, target, size = 40000):
 
 if __name__ == '__main__':
     conn = db_ec.connect_db(r'..\data\beerdb.sqlite')
-    write_training_data(conn, target = 'good_score', size = 50000)
+    write_training_data(conn, target = 'good_score', size = 10000)
