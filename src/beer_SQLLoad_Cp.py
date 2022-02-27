@@ -12,9 +12,8 @@ import sqlite3 #create sql connection and db
 import numpy as np
 import re
 import db_ec
+import beer_data_load as bdl
 
-#load data
-#os.chdir(r"C:\Users\colin\Desktop\Coursera Python\Beer Analysis") 
 
 #db_ec.create_db_connection(r'..\data\beerdb.db')
 
@@ -45,28 +44,10 @@ CREATE TABLE reviews (
 
 ''')
 
+## extract Tuples is used for RDBs
+beer_list = bdl.extractTuples(r'..\data\SNAP-Ratebeer.txt.gz')
 
-
-### One loop - if/thens can be improved upon
-#### Use a while loop
-with gzip.open(r'..\data\SNAP-Ratebeer.txt.gz', 'rt') as f:
-     single_beer = [] ## list to hold records for a single review
-     beer_list = [] ## list to hold all reviews
-
-     for line in f:
-        
-        lineformatted = re.sub(r'^.*?:', '', line) #read first line
-        
-        ## Determine whether line is final row record, delimited by \n
-        if lineformatted != "\n":
-            single_beer.append(lineformatted.lstrip().rstrip('\n'))
-        elif lineformatted == "\n":
-            beer_list.append(tuple(single_beer))
-            single_beer = []
-        else:
-            print("something has gone wrong")
-
-        
+## beer_json = bdl.extractJSON(r'..\data\SNAP-Ratebeer.txt.gz')
 
 cur.executemany('''INSERT INTO reviews
             (name, beerID, brewerId, AB, style, appearance,aroma,
