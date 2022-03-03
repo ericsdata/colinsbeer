@@ -1,6 +1,5 @@
 
-
-SELECT DISTINCT beerID, 
+SELECT  beerID, 
                 brewerId, 
                 style,
                 AB, 
@@ -12,4 +11,7 @@ SELECT DISTINCT beerID,
                     
 FROM reviews
 
-HAVING COUNT(DISTINCT review_text) > 10 ;
+WHERE brewerID in (SELECT brewerID 
+                    FROM reviews  
+                    GROUP BY brewerID 
+                    HAVING COUNT(review_text) > 10) ;
