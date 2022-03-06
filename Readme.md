@@ -35,19 +35,29 @@ We have a data file with 2.9 million beer reviews from Beer Advocate (?). Data i
 =======
 
 
-### TO DO
+### !!!!! TO DO
 
-- How clean is our data?
-    - Newline delimited
+- Develop work scope and finish line
+    - Database disucssion
+    - Any EDA results?
+
+- Maintain data pipeline
     - Missing reviews , scores, brewery identifiers
     - Text 
         - Many reviews start with serving styles
         - Extra spacing
 
 
-- NoSql? / Database repair
+-  Data Cleansing
+    - Score formats - remove '/20' on read
+    - Text 
+        - removed excess spacing
+        
+        
+        
+        NoSql? / Database repair
 
-- General code cleanliness and workflow
+- 
 
 
 
