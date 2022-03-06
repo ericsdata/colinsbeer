@@ -8,25 +8,26 @@ Beer Rating data
 We have a data file with 2.9 million beer reviews from Beer Advocate (?). Data is stored in text delimited files. 
 
 
-## Direction
-With this data we aim to
+## Whut ~~r we~~ we are doing
 
-- Employ language models to: 
-    - Classify beers described as "good"
-        - Write a review - did this person like the beer?
+
+#### **Prediction**
+- Language Generation
+    - Good example with artist lyrics => https://colab.research.google.com/github/AlekseyKorshuk/huggingartists/blob/master/huggingartists-demo.ipynb#scrollTo=BXCZM6vfRHKo
+
     - generate descriptions of different beers, by preference
         People who liked the beer said this: ....
         People who didnt like the beer said this: ....
 
 
-- Cluster word embeddings?
+- Run clustering algorithms on tokenized ids of text
     - which beers / beer types are similarly described
 
 
-<<<<<<< HEAD
-- DATA PROFILES
-    - Look at reviews with higher count of pronounds vs reviews with lower
-        - i.e. Reviews that are "subjective" vs "objective"
+#### **Descriptive**
+    -  Reviews that are "subjective" vs "objective"
+        - Lack of pronouns within review conveys less inovled 
+        - *How else could 'reviewer style' be measured?*
 
     - Breweries
         - How many of each style a brewery makes
