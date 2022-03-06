@@ -5,8 +5,10 @@ import pandas as pd
 import numpy as np
 import math
 
+import clean_beer_data as cbd
 
-def write_training_data(conn, target, size = 40000):
+
+def write_training_data(conn, sql_statement, target, size = 40000):
     '''
     Function writtent to read data from data frame, transform
 
@@ -57,12 +59,14 @@ def write_training_data(conn, target, size = 40000):
 
                     ;'''
 
+    sql_file = open(r"..\sql\brewer__query.sql")
+    sql_statement = sql_file. read()
 
     minReviews = 100
-    params = [minReviews]
+    params = []
 
     ## REad in data
-    dat = db_ec.executeStatement(conn,statement, params)
+    dat = db_ec.executeStatement(conn,sql_statement, params)
 
     ### Set up reviews for NLP by adding CLS SEP tags
     #dat['review_text'] = ["[CLS] " + query + " [SEP]" for query in dat['review_text']]
@@ -91,17 +95,10 @@ def write_training_data(conn, target, size = 40000):
                             'Dunkler Bock':14, 
                             'Heller Bock' :15})
 
-    ## Fix the rating format
-    def adjustOverallScore_binary(unformatted_score):
-        score = float(unformatted_score.split('/20')[0]) / 20 ### Split and format
-        return score
-
-    def adjustOverallScore_down(unformatted_score):
-        score = float(unformatted_score.split('/20')[0]) / 20 ### Split and format
-        return int(round(score*10,0))
+  
 
    # dat['level_score'] = dat['overall'].apply(adjustOverallScore_down)
-    dat['overall_f'] = dat['overall'].apply(adjustOverallScore_binary)
+    dat['overall_f'] = dat['overall'].apply(cbd.adjustOverallScore)
 
     dat['good_score'] = dat['overall_f'].apply(lambda x: 1 if x >= .8 else 0)
 

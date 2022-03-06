@@ -47,6 +47,7 @@ CREATE TABLE reviews (
 ## extract Tuples is used for RDBs
 beer_list = bdl.extractTuples(r'..\data\SNAP-Ratebeer.txt.gz')
 
+
 ## beer_json = bdl.extractJSON(r'..\data\SNAP-Ratebeer.txt.gz')
 
 cur.executemany('''INSERT INTO reviews
