@@ -27,22 +27,20 @@ Function to read beer data and prep it as JSON data
         beer_list = [] ## list to hold all reviews
 
         for line in f:
-
-            ### Need to set up JSON type data
-            #### Split into two groups from colon
-            line_grouped = re.match(r'.*/(.*):(.*)', line) #read first line
-
-            #### TODO set it up
-            ## Determine whether line is final row record, delimited by \n
-            if line != "\n":
+            ## Sentinel - if match empty line, consider one beer row completed
+            sent = re.match('^\n', line)
+            if sent:
+                beer_list.append(single_beer)
+                single_beer = {}
+                pass
+            else:
+                ## Split record
+                line_grouped = re.match(r'.*/(.*):(.*)', line) #read first line
+                ## Assign values
                 row_key = line_grouped.group(1).strip()
                 row_value = line_grouped.group(2).strip()
                 single_beer[row_key] = row_value
-            elif line == "\n":
-                beer_list.append(single_beer)
-                single_beer = {}
-            else:
-                print("something has gone wrong")
+
 
     return beer_list
 
