@@ -17,6 +17,7 @@ We have a data file with 2.9 million beer reviews from Beer Advocate (?). Data i
 
     - generate descriptions of different beers, by preference
         People who liked the beer said this: ....
+        
         People who didnt like the beer said this: ....
 
 
@@ -46,12 +47,14 @@ We have a data file with 2.9 million beer reviews from Beer Advocate (?). Data i
     - Text 
         - Many reviews start with serving styles
         - Extra spacing
+- ~~improved read JSon mod~~
 
 
 -  Data Cleansing
     - Score formats - remove '/20' on read
     - Text 
         - removed excess spacing
+ 
         
         
         
