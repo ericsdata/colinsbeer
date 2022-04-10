@@ -6,12 +6,13 @@ import numpy as np
 import math
 
 
-def write_training_data(conn, target, size = 40000):
+def write_training_data(conn,statement, target, size = 40000):
     '''
     Function writtent to read data from data frame, transform
 
     Arguments
         conn : Data connection able to return queries in data frames
+        statement: query to pull data
         target : what is target for ml model
         size : choose a size of training data to return 
     
@@ -24,7 +25,7 @@ def write_training_data(conn, target, size = 40000):
         ## modularize transformation
         ## Data sourcing
     ## Get all beers
-    statement = '''SELECT DISTINCT beerID, 
+    statement2 = '''SELECT DISTINCT beerID, 
                                     brewerId, 
                                     overall, 
                                     review_text, 
@@ -34,7 +35,7 @@ def write_training_data(conn, target, size = 40000):
 
 
     ## Get beers with a lot of reviews
-    statement = '''SELECT DISTINCT a.beerID, 
+    statement2 = '''SELECT DISTINCT a.beerID, 
                                     a.brewerId, 
                                     a.overall, 
                                     a.review_text, 
@@ -100,8 +101,8 @@ def write_training_data(conn, target, size = 40000):
         score = float(unformatted_score.split('/20')[0]) / 20 ### Split and format
         return int(round(score*10,0))
 
-   # dat['level_score'] = dat['overall'].apply(adjustOverallScore_down)
-    dat['overall_f'] = dat['overall'].apply(adjustOverallScore_binary)
+    dat['level_score'] = dat['overall'].apply(adjustOverallScore_down)
+    #dat['overall_f'] = dat['overall'].apply(adjustOverallScore_binary)
 
     dat['good_score'] = dat['overall_f'].apply(lambda x: 1 if x >= .8 else 0)
 
@@ -126,4 +127,7 @@ def write_training_data(conn, target, size = 40000):
 
 if __name__ == '__main__':
     conn = db_ec.connect_db(r'..\data\beerdb.sqlite')
+
+    statement = r''
+
     write_training_data(conn, target = 'good_score', size = 10000)
