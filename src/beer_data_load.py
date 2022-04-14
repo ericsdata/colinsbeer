@@ -9,6 +9,7 @@ import sqlite3 #create sql connection and db
 import numpy as np
 import re
 import db_ec
+import BeerBrush as bb
 
 def extractJSON(file_loc):
     '''
@@ -61,10 +62,11 @@ def extractTuples(file_loc):
 
      for line in f:
         
-        lineformatted = re.sub(r'^.*?:', '', line) #read first line
+        lineformatted = re.sub(r'^.*?:', '', line) 
         
         ## Determine whether line is final row record, delimited by \n
         if lineformatted != "\n":
+            line_formatted = bb.cleanString(lineformatted)
             single_beer.append(lineformatted.lstrip().rstrip('\n'))
         
         elif lineformatted == "\n":
