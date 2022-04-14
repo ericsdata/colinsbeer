@@ -39,28 +39,33 @@ We have a data file with 2.9 million beer reviews from Beer Advocate (?). Data i
 ### !!!!! TO DO
 
 - Develop work scope and finish line
-    - Database disucssion
+    - ~~Database disucssion~~
     - Any EDA results?
 
 - Maintain data pipeline
     - Missing reviews , scores, brewery identifiers
     - Text 
+        - Style on IPA / Wietbier + Genearl non-utc-8 char issues
         - Many reviews start with serving styles
         - Extra spacing
 - ~~improved read JSon mod~~
 
 
 -  Data Cleansing
-    - Score formats - remove '/20' on read
+    - ~~Score formats - remove '/20' on read~~
     - Text 
-        - removed excess spacing
+        - ~~removed excess spacing~~
  
         
         
         
         NoSql? / Database repair
 
-- 
+- Modeling
+    - ~~Get a model to generate beer text~~
+    - Train two models
+        - *Likes Beer* Train this to gen text from positive reviews of certain beers
+        - *Beer Hater* Train this to gen text from negative review fine tuning
 
 
 
