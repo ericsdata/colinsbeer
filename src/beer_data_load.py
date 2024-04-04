@@ -61,14 +61,15 @@ def extractTuples(file_loc):
      beer_list = [] ## list to hold all reviews
 
      for line in f:
-        
+        print(line)
+        ## remove anything before the colons
         lineformatted = re.sub(r'^.*?:', '', line) 
         
         ## Determine whether line is final row record, delimited by \n
         if lineformatted != "\n":
             line_formatted = bb.cleanString(lineformatted)
             single_beer.append(lineformatted.lstrip().rstrip('\n'))
-        
+        ## If it is, add single_beer list to the beer_list and rest
         elif lineformatted == "\n":
             beer_list.append(tuple(single_beer))
             single_beer = []

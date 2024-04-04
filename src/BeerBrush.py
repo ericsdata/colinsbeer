@@ -13,7 +13,8 @@ def cleanDigits(unformatted_score):
     ## If there was character to split on, normalize it
     if len(scsplit) > 1:
         score = float(scsplit[0]) /  float(scsplit[1]) ### Split and format
-    
+    else:
+        score = unformatted_score
     return score
 
 def cleanText(unformatted_text):
