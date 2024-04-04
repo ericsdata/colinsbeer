@@ -1,73 +1,18 @@
-# colinsbeer
+## Intro
 
-Beer Rating data
+Another failed attempt at roping my friend into doing a joint data project -- however this time I was able to rope some data cleaning code off of him. This however let me get to my main purpose a bit easier, testing out the fine tuning of a Hugging Face LLM.
 
+## The Data
 
-## DAta
+My buddy had downloaded a publicly available data set of [BeerAdvocate Data](https://web.archive.org/web/20200114060821/http://memetracker.org/data/web-BeerAdvocate.html), containing over 1.5 million records collected over a ten year time span.
 
-We have a data file with 2.9 million beer reviews from Beer Advocate (?). Data is stored in text delimited files. 
+Each record contains information about a specific beer (brewery, abv, style) and impression information (written review, rating, appearance) from BeerAdvocate users.
 
+## The Goal
 
-## Whut ~~r we~~ we are doing
+Fine tune a LLM to provide a written description of a "good beer" vs a "bad beer" of a specific style. 
+Ultimately, my adapted source code to do this is hosted on Colab in the `WriteReviews.ipynb` file.
 
+## To Do
 
-#### **Prediction**
-- Language Generation
-    - Good example with artist lyrics => https://colab.research.google.com/github/AlekseyKorshuk/huggingartists/blob/master/huggingartists-demo.ipynb#scrollTo=BXCZM6vfRHKo
-
-    - generate descriptions of different beers, by preference
-        People who liked the beer said this: ....
-        
-        People who didnt like the beer said this: ....
-
-
-- Run clustering algorithms on tokenized ids of text
-    - which beers / beer types are similarly described
-
-
-#### **Descriptive**
-    -  Reviews that are "subjective" vs "objective"
-        - Lack of pronouns within review conveys less inovled 
-        - *How else could 'reviewer style' be measured?*
-
-    - Breweries
-        - How many of each style a brewery makes
-
-=======
-
-
-### !!!!! TO DO
-
-- Develop work scope and finish line
-    - ~~Database disucssion~~
-    - Any EDA results?
-
-- Maintain data pipeline
-    - Missing reviews , scores, brewery identifiers
-    - Text 
-        - Style on IPA / Wietbier + Genearl non-utc-8 char issues
-        - Many reviews start with serving styles
-        - Extra spacing
-- ~~improved read JSon mod~~
-
-
--  Data Cleansing
-    - ~~Score formats - remove '/20' on read~~
-    - Text 
-        - ~~removed excess spacing~~
- 
-        
-        
-        
-        NoSql? / Database repair
-
-- Modeling
-    - ~~Get a model to generate beer text~~
-    - Train two models
-        - *Likes Beer* Train this to gen text from positive reviews of certain beers
-        - *Beer Hater* Train this to gen text from negative review fine tuning
-
-
-
-
-  
+- Upload cleaned scripts that demonstrate processing of raw data into train and test samples
